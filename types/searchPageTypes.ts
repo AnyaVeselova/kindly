@@ -1,11 +1,18 @@
 export type SearchParamsType = {
   query: string;
   category: CategoryType;
-  subcategory: ApparelSubcategoryType | BooksSubcategoryType;
+  subcategory?: ApparelSubcategoryType | BooksSubcategoryType;
   limit: number;
   cursor: string;
 };
 
+export const defaultSearchParams: SearchParamsType = {
+  query: '',
+  category: 'clothing', // Default category
+  subcategory: undefined,
+  limit: 30, // Default limit
+  cursor: '', // Default cursor
+};
 export type IconPropType = {
   width?: number;
   height?: number;
@@ -19,7 +26,6 @@ export type CategoryType =
   | 'shoes'
   | 'toys'
   | 'books'
-  | 'household'
-  | '';
+  | 'household';
 export type ApparelSubcategoryType = 'men' | 'women' | 'girls' | 'boys' | '';
 export type BooksSubcategoryType = 'adults' | 'children' | '';

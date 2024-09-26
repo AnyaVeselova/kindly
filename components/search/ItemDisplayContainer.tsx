@@ -22,6 +22,7 @@ const ItemDisplayContainer: React.FC<ItemDisplayContainerProps> = ({
       </div>
     );
   }
+
   return (
     <div className='lg-px-20 m-auto mt-5 lg:w-5/6'>
       <div className='mt-10 flex flex-col items-center gap-5'>

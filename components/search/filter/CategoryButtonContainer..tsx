@@ -18,13 +18,12 @@ import BooksSubcategory from './BooksSubcategory';
 type CategoryButtonContainerProps = {
   searchParams: {
     category: CategoryType;
-    subcategory: BooksSubcategoryType | ApparelSubcategoryType;
+    subcategory?: BooksSubcategoryType | ApparelSubcategoryType;
   };
   handleCategoryClick: (category: CategoryType) => void;
   handleSubcategoryClick: (
     subcategory: BooksSubcategoryType | ApparelSubcategoryType
   ) => void;
-  handleFilterApply: () => void;
   handleFilterClear: () => void;
 };
 
@@ -32,7 +31,6 @@ const CategoryButtonContainer: React.FC<CategoryButtonContainerProps> = ({
   searchParams,
   handleCategoryClick,
   handleSubcategoryClick,
-  handleFilterApply,
   handleFilterClear,
 }) => {
   return (
@@ -100,7 +98,7 @@ const CategoryButtonContainer: React.FC<CategoryButtonContainerProps> = ({
             className='button button-rounded'
             type='button'
             aria-label='Apply filters'
-            onClick={handleFilterApply}
+            // onClick={handleFilterApply}
           >
             APPLY FILTERS
           </button>

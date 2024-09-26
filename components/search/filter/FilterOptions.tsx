@@ -1,5 +1,7 @@
 'use client';
-import { Dispatch, useState } from 'react';
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { createUpdatedParams } from '@/utils/searchUtils';
 
 // Types
 import {
@@ -14,60 +16,51 @@ import CategoryButtonContainer from './CategoryButtonContainer.';
 import FilterIcon from '@/components/icons/FilterIcon';
 
 type FilterOptionsProps = {
-  searchParams: SearchParamsType;
-  setSearchParams: Dispatch<React.SetStateAction<SearchParamsType>>;
-  setHasFilters: Dispatch<React.SetStateAction<boolean>>;
+  handleSubmit: (newParams: SearchParamsType) => void;
 };
 
-const FilterOptions: React.FC<FilterOptionsProps> = ({
-  searchParams,
-  setSearchParams,
-  setHasFilters,
-}) => {
-  const [filtersOpen, setFiltersOpen] = useState(false);
+const FilterOptions: React.FC<FilterOptionsProps> = ({ handleSubmit }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const handleCategoryClick = (value: CategoryType) => {
-    if (searchParams.category === value) {
-      setSearchParams((prev) => ({ ...prev, category: '' }));
-    } else {
-      setSearchParams((prev) => ({
-        ...prev,
-        category: value,
-        subcategory: '',
-      }));
-    }
+    const updateParams = createUpdatedParams(searchParams, {
+      category: value,
+      subcategory: undefined,
+    });
+    handleSubmit(updateParams);
   };
 
   const handleSubcategoryClick = (
     value: BooksSubcategoryType | ApparelSubcategoryType
   ) => {
-    if (searchParams.subcategory === value) {
-      setSearchParams((prev) => ({ ...prev, subcategory: '' }));
-    } else {
-      setSearchParams((prev) => ({ ...prev, subcategory: value }));
-    }
+    const updatedParams = createUpdatedParams(searchParams, {
+      subcategory: value,
+    });
+    handleSubmit(updatedParams);
   };
 
   const handleFilterClear = () => {
-    setSearchParams((prev) => ({
-      ...prev,
-      category: '',
-      subcategory: '',
-    }));
-    setHasFilters(false);
+    router.push('/search');
   };
 
-  const handleFilterApply = () => {
-    setHasFilters((prevState) => !prevState);
+  const updatedSearchParams = {
+    category: (searchParams.get('category') as CategoryType) || 'clothing',
+    subcategory: searchParams.get('subcategory') as
+      | ApparelSubcategoryType
+      | BooksSubcategoryType
+      | undefined,
   };
 
   return (
     <>
       <button
+        type='button'
         className='mt-2 px-4'
         aria-label='Filter Options'
         aria-haspopup='true'
-        aria-expanded={filtersOpen}
+        aria-expanded={filtersOpen.toString()}
         data-cy='filter-button'
         onClick={() => setFiltersOpen((prev) => !prev)}
       >
@@ -75,10 +68,9 @@ const FilterOptions: React.FC<FilterOptionsProps> = ({
       </button>
       {filtersOpen && (
         <CategoryButtonContainer
-          searchParams={searchParams}
+          searchParams={updatedSearchParams}
           handleCategoryClick={handleCategoryClick}
           handleSubcategoryClick={handleSubcategoryClick}
-          handleFilterApply={handleFilterApply}
           handleFilterClear={handleFilterClear}
         />
       )}

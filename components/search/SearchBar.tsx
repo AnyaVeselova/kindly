@@ -1,33 +1,40 @@
 import { SearchParamsType } from '@/types/searchPageTypes';
-import { Dispatch, SetStateAction } from 'react';
+import { createUpdatedParams } from '@/utils/searchUtils';
 
 type SearchBarPropType = {
-  searchParams: SearchParamsType;
-  setSearchParams: Dispatch<SetStateAction<SearchParamsType>>;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  searchParams: URLSearchParams;
+  handleSubmit: (newParams: SearchParamsType) => void;
 };
 
 export const SearchBar: React.FC<SearchBarPropType> = ({
-  setSearchParams,
   searchParams,
   handleSubmit,
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParams((prevState) => ({
-      ...prevState,
-      query: e.target.value,
-    }));
+    const updatedQuery = e.target.value;
+    const updatedParams = createUpdatedParams(searchParams, {
+      query: updatedQuery,
+    });
+
+    handleSubmit(updatedParams);
+  };
+
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const updatedParams = createUpdatedParams(searchParams, {});
+
+    handleSubmit(updatedParams);
   };
 
   return (
     <div className='flex items-center justify-center'>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         className='flex gap-2 opacity-70 transition-opacity duration-200 focus-within:opacity-90'
       >
         <div>
           <input
-            value={searchParams.query}
+            value={searchParams.get('query') || ''}
             className='bg-primaryLight mh-10 rounded-l-md p-2 shadow-sm outline-none'
             type='text'
             placeholder='Find an item...'
