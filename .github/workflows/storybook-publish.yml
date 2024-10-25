@@ -17,5 +17,3 @@ jobs:
           path: storybook-static
           # ensure the built storybook ends up in /kindly/storybook
           build_command: npx storybook build -o storybook-static/storybook
-environment: 
-      name: github-pages
