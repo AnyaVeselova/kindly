@@ -9,11 +9,9 @@ import { PartialItem } from '@/types/supabaseTypes';
 import insertRow from '@/supabase/models/insertRow';
 
 export default function AddNewItemForm({
-  onSubmit,
   userId,
 }: {
   userId: string | undefined;
-  onSubmit: (data: PartialItem) => void;
 }) {
   const [imageSource, setImageSource] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,7 +79,6 @@ export default function AddNewItemForm({
         router.push(`/add-item?message=${error}`);
       }
 
-      await onSubmit(itemData);
       setSubmitSuccess(true);
     } catch (error) {
     } finally {
