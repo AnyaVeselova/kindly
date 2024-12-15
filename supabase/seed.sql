@@ -212,9 +212,6 @@ INSERT INTO "public"."items" ("id", "created_at", "donated_by", "is_reserved", "
 	(2, '2024-06-16 13:37:00.460318+00', 'cab97c8e-6704-4bb2-b3e8-a9cdaaf1be85', true, 'S', NULL, 'CF1', 'Fair', 'clothing', 'women', '48f9db70-05f7-4a04-a34d-75ae8267c90b', 'Summer Blouse', 'Clearing out any pieces I that are not needed in my wardrobe any more. This blouse is in pretty good state except for a missing button.', 'https://undfcbmldjkujposixvn.supabase.co/storage/v1/object/public/images/test_images/blouse.jpg?t=2024-07-08T12%3A48%3A10.214Z', false, true, '{48f9db70-05f7-4a04-a34d-75ae8267c90b}', false, NULL);
 
 
-SELECT id, created_at
-FROM items
-WHERE created_at < NOW() - INTERVAL '6 months';
 
 --
 -- Data for Name: messages; Type: TABLE DATA; Schema: public; Owner: postgres
